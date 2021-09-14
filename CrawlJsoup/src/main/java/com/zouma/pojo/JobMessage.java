@@ -7,9 +7,9 @@ import lombok.*;
  * @Date:2021/9/13 23:22
  * @Version 1.0
  */
-@Getter
-@Setter
-@ToString
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class JobMessage {
 
     // 职位名称
