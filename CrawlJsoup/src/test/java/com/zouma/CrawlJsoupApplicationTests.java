@@ -16,8 +16,7 @@ class CrawlJsoupApplicationTests {
 
     @Test
     void contextLoads() {
-        Elements document = jobMessageServer.messageList();
-        System.out.println(document);
+
     }
 
 }

@@ -3,6 +3,9 @@ package com.zouma.server;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 /**
  * @Author:zouma
  * @Date:2021/9/14 0:22
@@ -10,5 +13,5 @@ import org.jsoup.select.Elements;
  */
 public interface JobMessageServer {
 
-    public Elements messageList();
+     void messageList(HttpServletResponse response,String cookie) throws IOException;
 }

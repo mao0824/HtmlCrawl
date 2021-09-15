@@ -1,5 +1,9 @@
 package com.zouma.server;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import com.zouma.pojo.JobMessage;
 import com.zouma.utils.DocumentTool;
 import org.apache.http.client.protocol.HttpClientContext;
@@ -8,6 +12,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,13 +30,13 @@ import java.util.stream.Collectors;
 public class JobMessageServerImpl implements JobMessageServer {
 
     @Override
-    public Elements messageList() {
+    public void messageList(HttpServletResponse response,String cookie) throws IOException {
         ArrayList<JobMessage> jobMessageList = new ArrayList();
 
         String url = "https://www.zhipin.com/job_detail/?query=%E9%87%87%E8%B4%AD&city=101120800&industry=&position=1";
         HttpClientContext httpContext = HttpClientContext.create();
-        String cookie = "lastCity=101010100; __fid=2242e3cfa7b604a3baa8eccfe9f54d05; Hm_lvt_194df3105ad7148dcf2b98a91b5e727a=1631285743,1631546660,1631546712,1631627976; __g=-; acw_tc=0bcb2f0916316344750244221efe588b5f423533508f6e5bda6c0b3b69040d; __zp_stoken__=f9a3caSw8PS1bNyN%2FHXQ%2FKSEuG3VTSV1BTllcWQ13LG41MjIvJy9MNUpAQV54aTY8Fx8JJmRNfl9Ca0UBdQ4gXQkQTiwSTwAWbiEHHSpJPwlMR0dDYFFIOjYpIxZ3AjJBJzwZNUQ%2FVl1HdXkh; Hm_lpvt_194df3105ad7148dcf2b98a91b5e727a=1631636233; __c=1631627976; __l=l=%2Fwww.zhipin.com%2Fjob_detail%2F%3Fquery%3D%25E9%2587%2587%25E8%25B4%25AD%26city%3D101120800%26industry%3D%26position%3D1&r=&g=&s=3&friend_source=0&s=3&friend_source=0; __a=89413230.1630933486.1631546661.1631627976.130.8.7.130";
         Document d1 = DocumentTool.currRequest(httpContext, url, cookie);
+        System.out.println(d1);
         Elements elements = d1.getElementsByClass("job-primary");
 
         for (Element e :
@@ -60,8 +68,36 @@ public class JobMessageServerImpl implements JobMessageServer {
             jobMessageList.add(jobMessage);
         }
 
-        return elements;
-    }
 
+        //通过工具类创建writer
+        ExcelWriter writer = ExcelUtil.getWriter();
+        ArrayList<JobMessage> rows = CollUtil.newArrayList(jobMessageList);
+        String fileName = "Boss信息.xls";
+
+        // 设置标题别名
+        writer.addHeaderAlias("jobName", "职位名称");
+        writer.addHeaderAlias("companyName", "公司名称");
+        writer.addHeaderAlias("salary", "薪水");
+        writer.addHeaderAlias("location", "公司位置");
+        writer.addHeaderAlias("workExperience", "工作经验");
+        writer.addHeaderAlias("education", "学历");
+        writer.addHeaderAlias("industry", "行业");
+        writer.addHeaderAlias("companySize", "公司规模");
+
+        writer.write(rows, true);
+
+        //response为HttpServletResponse对象
+        response.setContentType("application/vnd.ms-excel;charset=utf-8");
+
+        response.setHeader("Content-Disposition", "attachment;fileName="+ URLEncoder.encode(fileName, "UTF-8"));
+
+        ServletOutputStream out=response.getOutputStream();
+
+        writer.flush(out, true);
+        // 关闭writer，释放内存
+        writer.close();
+        //此处记得关闭输出Servlet流
+        IoUtil.close(out);
+    }
 
 }
