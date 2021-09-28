@@ -13,5 +13,5 @@ import java.io.IOException;
  */
 public interface JobMessageServer {
 
-     void messageList(HttpServletResponse response,String cookie) throws IOException;
+     void messageList() throws IOException;
 }

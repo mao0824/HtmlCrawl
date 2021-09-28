@@ -1,22 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>开始</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表单提交</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+
+    </style>
 </head>
+
 <body>
+<div id="app">
+    <div>
+        输入cookie:<el-input  style="width:300px" v-model="cookie"></el-input>
+    </div>
+    <el-button @click="submit()">提交</el-button>
+</div>
+<script type="text/javascript">
+    new Vue({
+        el: '#app',
+        data: {
+            cookie:"",
 
-<p>主页</p>
+        },
+        computed: {},
+        methods: {
+            submit(){
 
-<form method="post" action="/1/cookie">
-
-    <tr>
-        <td>cookie</td>
-        <td><input type="text" id="cookie" name="cookie"></td>
-        <input type="submit">
-    </tr>
-
-</form>
-
+                axios.post("http://localhost:8080/aa",{cookie:this.cookie}).then(res=>{
+                    console.log(res)
+                }).catch(err=>{
+                    console.log(err)
+                })
+            }
+        },
+        beforeMount() {},
+        mounted() {
+            console.log("挂载完成生命周期");
+        },
+    })
+</script>
 </body>
+
 </html>
+
+
