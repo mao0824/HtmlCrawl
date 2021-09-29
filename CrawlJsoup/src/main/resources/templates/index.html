@@ -12,39 +12,73 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <style>
-
+        .boxapp{
+        }
+        .boxapp div {
+            display: flex;
+            margin-bottom: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+        .box1 {
+            display: inline-block;
+            width: 100px;
+        }
+        body {
+            background: url('./bj.jpg') no-repeat;
+        }
+        .bgimg {
+            background-color: rgba(255,255,255,0.2);
+            padding: 50px 0;
+            border-radius: 10px;
+        }
     </style>
 </head>
 
 <body>
 <div id="app">
-    <div>
-        输入cookie:<el-input  style="width:300px" v-model="cookie"></el-input>
+    <div class="bgimg">
+        <div class="boxapp">
+            <h2 style="text-align: center">请求信息</h2>
+            <div>
+                <span class="box1"> cookie:</span><el-input  style="width:400px" v-model="form.cookie"></el-input>
+            </div>
+            <div>
+                <span  class="box1">url:</span><el-input  style="width:400px" v-model="form.url"></el-input>
+            </div>
+            <div>
+                <span  class="box1"> page:</span><el-input  style="width:400px" v-model="form.page" placeholder="每页30个数据"></el-input>
+            </div>
+        </div>
+        <div class="boxapp">
+            <div>
+                <el-button @click="submit()" type="primary">提交</el-button>
+            </div>
+        </div>
     </div>
-    <el-button @click="submit()">提交</el-button>
 </div>
 <script type="text/javascript">
     new Vue({
         el: '#app',
         data: {
-            cookie:"",
-
+           form:{
+               cookie:"",
+               url:"",
+               page:""
+           }
         },
         computed: {},
         methods: {
             submit(){
-
-                axios.post("http://localhost:8080/aa",{cookie:this.cookie}).then(res=>{
+                console.log(this.form);
+                axios.post("http://localhost:8080/bossRequestInfo",{form:this.form},).then(res=>{
                     console.log(res)
                 }).catch(err=>{
                     console.log(err)
                 })
             }
         },
-        beforeMount() {},
-        mounted() {
-            console.log("挂载完成生命周期");
-        },
+
     })
 </script>
 </body>

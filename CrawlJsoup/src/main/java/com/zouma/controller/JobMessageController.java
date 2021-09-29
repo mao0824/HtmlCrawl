@@ -1,5 +1,6 @@
 package com.zouma.controller;
 
+import com.zouma.pojo.from;
 import com.zouma.server.JobMessageServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,11 +21,11 @@ public class JobMessageController {
     @Autowired
     private JobMessageServer jobMessageServer;
 
-    @GetMapping("/1")
+    @PostMapping("/bossRequestInfo")
     @ResponseBody
-    public String test() throws IOException {
+    public String test(@RequestBody from from) throws IOException {
 
-        jobMessageServer.messageList();
+        jobMessageServer.messageList(from);
         return "成功";
     }
 

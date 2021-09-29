@@ -1,26 +1,22 @@
 package com.zouma.server;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.io.IoUtil;
 import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.zouma.pojo.JobMessage;
+import com.zouma.pojo.from;
 import com.zouma.utils.DocumentTool;
 import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,14 +31,14 @@ import java.util.stream.Collectors;
 public class JobMessageServerImpl implements JobMessageServer {
 
     @Override
-    public void messageList() throws IOException {
+    public void messageList(from from) throws IOException {
         ArrayList<JobMessage> jobMessageList = new ArrayList();
 
-        for (int i = 1; i <=3 ; i++) {
-            String url = "https://www.zhipin.com/job_detail/?query=%E5%A4%96%E5%9B%B4&city=101010100&page="+i+"&ka=page-"+i;
-            String cookie = "lastCity=101010100; acw_tc=0bcb2f0716328473714732079e49aec159372858eaf1289cef36d6041558fd; Hm_lvt_194df3105ad7148dcf2b98a91b5e727a=1631809516,1631973044,1631979644,1632847375; __g=-; __zp_stoken__=f25cdIyZmS1gVXRQrEEk0LC8QD0VsejlNEgZFaEZgcipRdh9PBkpFNDdQfA0YQ3FhDyB%2BbAgMOjcuR31dACx%2BbGJALFYdLBg5aFEaEjhcI3FKRyVNaHAsLQNjO24lOhE1TRlMRHV3RVUwBg0%3D; Hm_lpvt_194df3105ad7148dcf2b98a91b5e727a=1632847385; __c=1632847376; __a=96266598.1631809517.1631979644.1632847376.58.4.2.58";
+        for (int j = 1; j <= from.getPage(); j++) {
+            String searchUrl = from.getUrl()+"&page="+ from.getPage()+"&ka=page-"+ from.getPage();
+            String cookie = from.getCookie();
             HttpClientContext httpContext = HttpClientContext.create();
-            Document d1 = DocumentTool.currRequest(httpContext, url, cookie);
+            Document d1 = DocumentTool.currRequest(httpContext, searchUrl, cookie);
             System.out.println(d1);
             Elements elements = d1.getElementsByClass("job-primary");
 
@@ -75,6 +71,8 @@ public class JobMessageServerImpl implements JobMessageServer {
                 jobMessageList.add(jobMessage);
             }
         }
+
+        System.out.println(jobMessageList.size());
 
         //通过工具类创建writer
         ExcelWriter writer = ExcelUtil.getWriter();

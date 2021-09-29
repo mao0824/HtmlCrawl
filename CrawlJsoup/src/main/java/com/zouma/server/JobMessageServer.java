@@ -1,9 +1,7 @@
 package com.zouma.server;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import com.zouma.pojo.from;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -13,5 +11,5 @@ import java.io.IOException;
  */
 public interface JobMessageServer {
 
-     void messageList() throws IOException;
+     void messageList(from from) throws IOException;
 }

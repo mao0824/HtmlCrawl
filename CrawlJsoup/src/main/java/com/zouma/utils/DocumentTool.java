@@ -36,10 +36,10 @@ public class DocumentTool {
                 .build();
     }
 
-    public static Document currRequest(HttpClientContext httpContext, String url, String cookie) {
+    public static Document currRequest(HttpClientContext httpContext, String searchUrl, String cookie) {
 
         HttpUriRequest req = RequestBuilder.get()
-                .setUri(url)
+                .setUri(searchUrl)
                 .setHeader("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
                 .setHeader("accept-encoding", "gzip, deflate, br")
                 .setHeader("accept-language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7")
