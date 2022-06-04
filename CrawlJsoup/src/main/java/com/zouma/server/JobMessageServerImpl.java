@@ -33,14 +33,15 @@ public class JobMessageServerImpl implements JobMessageServer {
     @Override
     public void messageList(From from) throws IOException {
         ArrayList<JobMessage> jobMessageList = new ArrayList();
-
+        // https://www.zhipin.com/i101303-c100010000/?query=%E6%80%BB%E7%BB%8F%E7%90%86&page=2&ka=page-2
         for (int j = 1; j <= from.getPage(); j++) {
-            String searchUrl = from.getUrl()+"&page="+ from.getPage()+"&ka=page-"+ from.getPage();
+            String searchUrl = from.getUrl()+"&page="+ j+"&ka=page-"+ j;
+            System.out.println("搜索的地址：------>" + searchUrl);
             String cookie = from.getCookie();
             HttpClientContext httpContext = HttpClientContext.create();
             Document d1 = DocumentTool.currRequest(httpContext, searchUrl, cookie);
-            System.out.println(d1);
             Elements elements = d1.getElementsByClass("job-primary");
+            // System.out.println("Elements---->" + elements);
 
             for (Element e :
                     elements) {
@@ -72,7 +73,7 @@ public class JobMessageServerImpl implements JobMessageServer {
             }
         }
 
-        System.out.println(jobMessageList.size());
+        System.out.println("jobMessageList-------->" + jobMessageList.size());
 
         //通过工具类创建writer
         ExcelWriter writer = ExcelUtil.getWriter();
