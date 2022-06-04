@@ -1,13 +1,12 @@
 package com.zouma.controller;
 
-import com.zouma.pojo.from;
+import com.zouma.pojo.From;
 import com.zouma.server.JobMessageServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.RequestWrapper;
+import javax.annotation.Resource;
 import java.io.IOException;
 
 /**
@@ -15,15 +14,14 @@ import java.io.IOException;
  * @Date:2021/9/14 0:07
  * @Version 1.0
  */
-@Controller
+@RestController
 public class JobMessageController {
 
-    @Autowired
+    @Resource
     private JobMessageServer jobMessageServer;
 
     @PostMapping("/bossRequestInfo")
-    @ResponseBody
-    public String test(@RequestBody from from) throws IOException {
+    public String test(@RequestBody From from) throws IOException {
 
         jobMessageServer.messageList(from);
         return "成功";

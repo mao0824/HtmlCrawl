@@ -6,7 +6,7 @@ import cn.hutool.extra.mail.MailUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
 import com.zouma.pojo.JobMessage;
-import com.zouma.pojo.from;
+import com.zouma.pojo.From;
 import com.zouma.utils.DocumentTool;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.jsoup.nodes.Document;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class JobMessageServerImpl implements JobMessageServer {
 
     @Override
-    public void messageList(from from) throws IOException {
+    public void messageList(From from) throws IOException {
         ArrayList<JobMessage> jobMessageList = new ArrayList();
 
         for (int j = 1; j <= from.getPage(); j++) {

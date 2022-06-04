@@ -1,6 +1,6 @@
 package com.zouma.server;
 
-import com.zouma.pojo.from;
+import com.zouma.pojo.From;
 
 import java.io.IOException;
 
@@ -11,5 +11,5 @@ import java.io.IOException;
  */
 public interface JobMessageServer {
 
-     void messageList(from from) throws IOException;
+     void messageList(From from) throws IOException;
 }
