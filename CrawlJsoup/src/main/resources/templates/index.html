@@ -45,10 +45,13 @@
                 <span class="box1"> cookie:</span><el-input  style="width:400px" v-model="form.cookie"></el-input>
             </div>
             <div>
-                <span  class="box1"> url:</span><el-input  style="width:400px" v-model="form.url"></el-input>
+                <span  class="box1"> 搜索地址:</span><el-input  style="width:400px" v-model="form.url"></el-input>
             </div>
             <div>
-                <span  class="box1"> page:</span><el-input  style="width:400px" v-model="form.page" placeholder="每页30个数据"></el-input>
+                <span  class="box1"> 开始页数:</span><el-input  style="width:400px" v-model="form.startPage" placeholder="每页30个数据"></el-input>
+            </div>
+            <div>
+                <span  class="box1"> 结束页数:</span><el-input  style="width:400px" v-model="form.endPage" placeholder="每页30个数据"></el-input>
             </div>
         </div>
         <div class="boxapp">
@@ -65,7 +68,8 @@
            form:{
                cookie:"",
                url:"",
-               page:""
+               startPage:"",
+               endPage:""
            }
         },
         computed: {},

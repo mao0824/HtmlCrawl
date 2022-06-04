@@ -32,9 +32,19 @@ public class JobMessageServerImpl implements JobMessageServer {
 
     @Override
     public void messageList(From from) throws IOException {
-        ArrayList<JobMessage> jobMessageList = new ArrayList();
+
+        int startPage = from.getStartPage();
+        int endPage = from.getEndPage();
+        List<JobMessage> jobMessageList = new ArrayList();
+        if (startPage < 1){
+            startPage = 1;
+        }
+        if (endPage < 1){
+            endPage = 1;
+        }
+
         // https://www.zhipin.com/i101303-c100010000/?query=%E6%80%BB%E7%BB%8F%E7%90%86&page=2&ka=page-2
-        for (int j = 1; j <= from.getPage(); j++) {
+        for (int j = startPage; j <= endPage ; j++) {
             String searchUrl = from.getUrl()+"&page="+ j+"&ka=page-"+ j;
             System.out.println("搜索的地址：------>" + searchUrl);
             String cookie = from.getCookie();
@@ -120,8 +130,8 @@ public class JobMessageServerImpl implements JobMessageServer {
         account.setUser("1115772640");
         account.setPass("djqwzcyibdmbbaff");
 
-        MailUtil.send(account,"1028647294@qq.com", "测试", "邮件来自Boss测试", false,f);
-
+        MailUtil.send(account,"1028647294@qq.com", "boss数据", "老板，来邮件了", false,f);
+        // 1028647294@qq.com  460105167@qq.com
     }
 
 }

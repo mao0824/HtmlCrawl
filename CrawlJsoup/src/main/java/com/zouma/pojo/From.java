@@ -14,5 +14,7 @@ public class From {
 
     String url;
 
-    int page;
+    int startPage;
+
+    int endPage;
 }
